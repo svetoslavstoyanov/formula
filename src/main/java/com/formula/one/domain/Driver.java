@@ -27,7 +27,7 @@ public class Driver {
     @NotBlank
     @Length(min = 3, max = 20)
     @Column(name = "last_name", nullable = false)
-    private String lastname;
+    private String lastName;
 
     @Range(min = 18, max = 100)
     @Column(name = "age", nullable = false)
@@ -62,13 +62,13 @@ public class Driver {
     private List<RaceRanking> raceRankings;
 
     @ManyToOne
-    @JoinColumn(name = "team_id", nullable = false)
+    @JoinColumn(name = "team_id")
     private Team team;
 
     public Driver(UUID id, String firstName, String lastname, int age, int carNumber, int winsCount, int pointsCount, int fastestLapsCount, int crashesCount, int didNotFinishedCount, List<RaceRanking> raceRankings) {
         this.id = id;
         this.firstName = firstName;
-        this.lastname = lastname;
+        this.lastName = lastname;
         this.age = age;
         this.carNumber = carNumber;
         this.winsCount = winsCount;
@@ -98,12 +98,12 @@ public class Driver {
         this.firstName = firstName;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public int getAge() {
@@ -168,5 +168,13 @@ public class Driver {
 
     public void setRaceRankings(List<RaceRanking> raceRankings) {
         this.raceRankings = raceRankings;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
     }
 }

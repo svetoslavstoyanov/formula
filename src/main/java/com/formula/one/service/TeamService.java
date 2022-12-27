@@ -4,6 +4,7 @@ import com.formula.one.domain.Driver;
 import com.formula.one.domain.Team;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface TeamService {
@@ -17,8 +18,4 @@ public interface TeamService {
     Team edit(Team team);
 
     void deleteById(UUID teamId);
-
-    List<Driver> addDriver(Driver driver);
-
-    void removeDriverById(UUID teamId, UUID driverId);
 }

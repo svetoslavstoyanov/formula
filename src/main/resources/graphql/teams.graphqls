@@ -1,0 +1,94 @@
+type Query {
+    #    TEAMS
+    fetchAllTeams: [Team]!
+    fetchTeamById(id: ID): Team
+    #    DRIVERS
+    fetchAllDrivers: [Driver]!
+    fetchDriverById(id:ID): Driver
+}
+
+type Mutation{
+    #    TEAMS
+    createTeam(newTeam: CreateTeamInput!): Team!
+    editTeam(editedTeam: EditTeamInput!): Team!
+    deleteTeamById(id: ID): Boolean
+    addDriver(teamId:ID, driverId: ID): [Driver]!
+    removeDriverById(teamId:ID, driverId: ID): [Driver]!
+    #    DRIVERS
+    createDriver(driverInput: CreateDriverInput): Driver!
+    editDriverPersonalInfo(driverInput: editDriverPersonalInfoInput): Driver!
+    deleteDriverById(id: ID): Boolean
+
+}
+
+input CreateTeamInput {
+    name: String!
+}
+
+
+input EditTeamInput {
+    id: ID!
+    name: String!
+}
+
+input CreateDriverInput{
+    firstName: String!
+    lastName: String!
+    age: Int!
+    carNumber: Int!
+}
+
+input editDriverPersonalInfoInput{
+    id: ID!
+    firstName: String
+    lastName: String
+    age: Int
+    carNumber: Int
+}
+
+
+type Team{
+    id: ID!
+    name: String!
+    drivers: [Driver]
+    winsCount: Int!
+    pointsCount: Int!
+}
+
+
+type Race{
+    id:ID!
+    circuitName:String!
+    lapsCount: Int!
+    averageLapTimeInSeconds: Int!
+    startDate: String!
+    endDate: String
+    raceRankings: [RaceRanking]
+}
+
+
+type Driver{
+    id: ID!
+    firstName: String!
+    lastName: String!
+    age: Int!
+    carNumber: Int!
+    winsCount: Int!
+    pointsCount: Int!
+    fastestLapsCount: Int!
+    crashesCount: Int!
+    didNotFinishedCount: Int!
+    raceRankings: [RaceRanking]
+    team: Team
+}
+
+type RaceRanking{
+    id: ID!
+    race: String!
+    driver: Driver!
+    position: Int!
+    pointsCount: Int!
+    hasFastestLap: Boolean!
+    didNotFinished: Boolean!
+    isRaceWinner: Boolean!
+}
