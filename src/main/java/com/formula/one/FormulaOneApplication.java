@@ -16,7 +16,10 @@ public class FormulaOneApplication {
 // TODO: after each race update drivers race info
 // TODO: query/mutations for generating data
 
-// TODO*: add status for race? READY, RUNNING, FINISHED
-// TODO*: add years
-// TODO*: add stints for race info for drivers per race
+//  TODO*: error handling
+//  TODO*: security
+
+// TODO**: add status for race? READY, RUNNING, FINISHED
+// TODO**: add years
+// TODO**: add stints for race info for drivers per race
 }
