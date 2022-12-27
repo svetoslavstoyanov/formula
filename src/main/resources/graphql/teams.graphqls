@@ -1,11 +1,31 @@
 type Query {
     #    TEAMS
-    fetchAllTeams: [Team]!
+    fetchAllTeams(pageIndex: Int, pageSize: Int, sort: [Sort]):Page
     fetchTeamById(id: ID): Team
     #    DRIVERS
     fetchAllDrivers: [Driver]!
     fetchDriverById(id:ID): Driver
 }
+
+enum DIRECTION{
+    ASC
+    DESC
+}
+input Sort{
+    direction: DIRECTION
+    field: String
+}
+
+type Page{
+    data: [Team]
+    totalPages: Int
+    totalElements: Int
+    isFirst: Boolean
+    isLast: Boolean
+    hasNext: Boolean
+    hasPrevious: Boolean
+}
+
 
 type Mutation{
     #    TEAMS

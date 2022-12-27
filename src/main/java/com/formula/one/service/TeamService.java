@@ -1,15 +1,15 @@
 package com.formula.one.service;
 
-import com.formula.one.domain.Driver;
 import com.formula.one.domain.Team;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public interface TeamService {
 
-    List<Team> fetchAll();
+    Page<Team> fetchAll(PageRequest pageRequest);
 
     Team fetchById(UUID teamId);
 

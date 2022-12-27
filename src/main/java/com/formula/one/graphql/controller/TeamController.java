@@ -4,16 +4,23 @@ import com.formula.one.domain.Driver;
 import com.formula.one.domain.Team;
 import com.formula.one.graphql.input.CreateTeamInput;
 import com.formula.one.graphql.input.EditTeamInput;
+import com.formula.one.graphql.input.SortOrder;
+import com.formula.one.graphql.resource.PageResource;
 import com.formula.one.service.DriverService;
 import com.formula.one.service.TeamService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Controller
@@ -26,8 +33,28 @@ public class TeamController {
     private DriverService driverService;
 
     @QueryMapping
-    public List<Team> fetchAllTeams() {
-        return teamService.fetchAll();
+    public PageResource<Team> fetchAllTeams(@Argument Integer pageIndex, @Argument Integer pageSize, @Argument List<SortOrder> sort) {
+
+        Integer localPageIndex = 0;
+        Integer localPageSize = 10_000;
+        List<Sort.Order> localSort = new ArrayList<>();
+
+        if (!Objects.isNull(pageIndex)) {
+            localPageIndex = pageIndex;
+        }
+
+        if (!Objects.isNull(pageSize)) {
+            localPageSize = pageSize;
+        }
+
+        if (!Objects.isNull(sort)) {
+            sort.forEach((s) -> localSort.add(new Sort.Order(s.getDirection(), s.getField())));
+        }
+
+        PageRequest pageRequest = PageRequest.of(localPageIndex, localPageSize, Sort.by(localSort));
+        Page<Team> teamPage = teamService.fetchAll(pageRequest);
+
+        return new PageResource<>(teamPage);
     }
 
     @QueryMapping
@@ -71,7 +98,7 @@ public class TeamController {
     }
 
     @MutationMapping
-    public boolean deleteTeamById(@Argument UUID id){
+    public boolean deleteTeamById(@Argument UUID id) {
         teamService.deleteById(id);
 
         return true;
