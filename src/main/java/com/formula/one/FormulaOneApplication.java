@@ -22,4 +22,6 @@ public class FormulaOneApplication {
 // TODO**: add status for race? READY, RUNNING, FINISHED
 // TODO**: add years
 // TODO**: add stints for race info for drivers per race
+
+//  TODO***: filters queries
 }
