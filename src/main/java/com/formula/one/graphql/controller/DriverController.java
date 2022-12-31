@@ -70,6 +70,4 @@ public class DriverController {
         return true;
     }
 
-//    TODO: add method for updating race stats
-
 }

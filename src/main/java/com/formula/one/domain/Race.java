@@ -1,12 +1,16 @@
 package com.formula.one.domain;
 
+import com.formula.one.enums.RaceStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.hibernate.annotations.CurrentTimestamp;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.tuple.GenerationTiming;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -37,14 +41,20 @@ public class Race {
     @Column(name = "start_date", nullable = false)
     private LocalDateTime startDate;
 
-    @NotNull()
-    @Column(name = "end_date", nullable = false)
+    @Column(name = "end_date")
     private LocalDateTime endDate;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "race_status")
+    private RaceStatus status;
 
     @OneToMany(mappedBy = "race", targetEntity = RaceRanking.class)
     private List<RaceRanking> raceRankings;
 
-    public Race(UUID id, String circuitName, int lapsCount, int averageLapTimeInSeconds, LocalDateTime startDate, LocalDateTime endDate, List<RaceRanking> raceRankings) {
+    @CurrentTimestamp(timing = GenerationTiming.INSERT)
+    public Instant createdAt;
+
+    public Race(UUID id, String circuitName, int lapsCount, int averageLapTimeInSeconds, LocalDateTime startDate, LocalDateTime endDate, List<RaceRanking> raceRankings, RaceStatus raceStatus, Instant createdAt) {
         this.id = id;
         this.circuitName = circuitName;
         this.lapsCount = lapsCount;
@@ -52,6 +62,8 @@ public class Race {
         this.startDate = startDate;
         this.endDate = endDate;
         this.raceRankings = raceRankings;
+        this.status = raceStatus;
+        this.createdAt = createdAt;
     }
 
     public Race() {
@@ -111,5 +123,21 @@ public class Race {
 
     public void setRaceRankings(List<RaceRanking> raceRankings) {
         this.raceRankings = raceRankings;
+    }
+
+    public RaceStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(RaceStatus status) {
+        this.status = status;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
     }
 }

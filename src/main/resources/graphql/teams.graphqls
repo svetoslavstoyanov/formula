@@ -5,12 +5,46 @@ type Query {
     #    DRIVERS
     fetchAllDrivers: [Driver]!
     fetchDriverById(id:ID): Driver
+    #    RACES
+    fetchAllRaces: [Race]!
+    fetchRaceById(id: ID): Race
+    #    MOCK
+    mockGenerateTeams:[Team]!
+    mockGenerateDrivers:[Driver]!
+    mockAssignDriverToTeams:[Driver]!
+}
+
+type Mutation{
+    #    TEAMS
+    createTeam(newTeam: CreateTeamInput!): Team!
+    editTeam(editedTeam: EditTeamInput!): Team!
+    deleteTeamById(id: ID): Boolean
+    addDriver(teamId:ID, driverId: ID): [Driver]!
+    removeDriverById(teamId:ID, driverId: ID): [Driver]!
+    #    DRIVERS
+    createDriver(driverInput: CreateDriverInput): Driver!
+    editDriverPersonalInfo(driverInput: editDriverPersonalInfoInput): Driver!
+    deleteDriverById(id: ID): Boolean
+    #    RACES
+    createRace(createRaceInput: CreateRace): Race
+    editRace(editRaceInput: EditRace):Race
+    startRace(raceId: ID):Race
+    finishRace(raceId: ID, raceRankingsInputs:[CreateRaceRanking]):Race
+    cancelRace(raceId: ID):Race
 }
 
 enum DIRECTION{
     ASC
     DESC
 }
+
+enum RACE_STATUS{
+    READY
+    RUNNING
+    CANCELLED
+    FINISHED
+}
+
 input Sort{
     direction: DIRECTION
     field: String
@@ -24,21 +58,6 @@ type Page{
     isLast: Boolean
     hasNext: Boolean
     hasPrevious: Boolean
-}
-
-
-type Mutation{
-    #    TEAMS
-    createTeam(newTeam: CreateTeamInput!): Team!
-    editTeam(editedTeam: EditTeamInput!): Team!
-    deleteTeamById(id: ID): Boolean
-    addDriver(teamId:ID, driverId: ID): [Driver]!
-    removeDriverById(teamId:ID, driverId: ID): [Driver]!
-    #    DRIVERS
-    createDriver(driverInput: CreateDriverInput): Driver!
-    editDriverPersonalInfo(driverInput: editDriverPersonalInfoInput): Driver!
-    deleteDriverById(id: ID): Boolean
-
 }
 
 input CreateTeamInput {
@@ -66,6 +85,29 @@ input editDriverPersonalInfoInput{
     carNumber: Int
 }
 
+input CreateRaceRanking{
+    driverId: ID!
+    position: Int!
+    pointsCount: Int!
+    hasFastestLap: Boolean!
+    didNotFinished: Boolean!
+}
+
+input CreateRace{
+    circuitName: String!
+    lapsCount:Int!
+    averageLapTimeInSeconds: Int!
+    startDate: String!
+}
+
+
+input EditRace{
+    id: ID!
+    circuitName: String!
+    lapsCount:Int!
+    averageLapTimeInSeconds: Int!
+    startDate: String!
+}
 
 type Team{
     id: ID!
@@ -83,6 +125,7 @@ type Race{
     averageLapTimeInSeconds: Int!
     startDate: String!
     endDate: String
+    status: RACE_STATUS!
     raceRankings: [RaceRanking]
 }
 

@@ -2,10 +2,14 @@ package com.formula.one.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import org.hibernate.annotations.CurrentTimestamp;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.tuple.GenerationTiming;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.data.annotation.CreatedDate;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,12 +40,16 @@ public class Team {
     @Column(name = "points_count", nullable = false)
     private int pointsCount;
 
-    public Team(UUID id, String name, List<Driver> drivers, int winsCount, int pointsCount) {
+    @CurrentTimestamp(timing = GenerationTiming.INSERT)
+    public Instant createdAt;
+
+    public Team(UUID id, String name, List<Driver> drivers, int winsCount, int pointsCount, Instant createdAt) {
         this.id = id;
         this.name = name;
         this.drivers = drivers;
         this.winsCount = winsCount;
         this.pointsCount = pointsCount;
+        this.createdAt = createdAt;
     }
 
     public Team() {
@@ -85,5 +93,13 @@ public class Team {
 
     public void setPointsCount(int pointsCount) {
         this.pointsCount = pointsCount;
+    }
+
+    public Instant getCreatedDate() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
     }
 }

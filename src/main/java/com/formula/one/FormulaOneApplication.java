@@ -9,19 +9,19 @@ public class FormulaOneApplication {
     public static void main(String[] args) {
         SpringApplication.run(FormulaOneApplication.class, args);
     }
-// TODO: api for updating driver race info
-// TODO: raceRanking service
-// TODO: race service
-// TODO: race controller
-// TODO: after each race update drivers race info
-// TODO: query/mutations for generating data
+//  TODO: mock generate races
+//  TODO: mock finish race
+//  TODO: update teams winsCount, pointsCount on finished race
+//  TODO: query/mutations for generating data
 
 //  TODO*: error handling
+//  TODO*: handle more precise business logic around validations
 //  TODO*: security
 
-// TODO**: add status for race? READY, RUNNING, FINISHED
-// TODO**: add years
-// TODO**: add stints for race info for drivers per race
+//  TODO**: add status for race? READY, RUNNING, FINISHED
+//  TODO**: add years
+//  TODO**: add stints for race info for drivers per race
+//  TODO**: add delete race
 
 //  TODO***: filters queries
 }

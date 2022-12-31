@@ -2,10 +2,13 @@ package com.formula.one.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import org.hibernate.annotations.CurrentTimestamp;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.tuple.GenerationTiming;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -65,7 +68,10 @@ public class Driver {
     @JoinColumn(name = "team_id")
     private Team team;
 
-    public Driver(UUID id, String firstName, String lastname, int age, int carNumber, int winsCount, int pointsCount, int fastestLapsCount, int crashesCount, int didNotFinishedCount, List<RaceRanking> raceRankings) {
+    @CurrentTimestamp(timing = GenerationTiming.INSERT)
+    public Instant createdAt;
+
+    public Driver(UUID id, String firstName, String lastname, int age, int carNumber, int winsCount, int pointsCount, int fastestLapsCount, int crashesCount, int didNotFinishedCount, List<RaceRanking> raceRankings, Instant createdAt) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastname;
@@ -77,6 +83,7 @@ public class Driver {
         this.crashesCount = crashesCount;
         this.didNotFinishedCount = didNotFinishedCount;
         this.raceRankings = raceRankings;
+        this.createdAt = createdAt;
     }
 
     public Driver() {
@@ -123,7 +130,8 @@ public class Driver {
     }
 
     public int getWinsCount() {
-        return winsCount;
+        return this.raceRankings.stream().filter((ranking) -> ranking.getPosition() == 1).toList().size();
+//        return winsCount;
     }
 
     public void setWinsCount(int winsCount) {
@@ -176,5 +184,13 @@ public class Driver {
 
     public void setTeam(Team team) {
         this.team = team;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
     }
 }

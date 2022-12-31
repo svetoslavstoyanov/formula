@@ -1,9 +1,12 @@
 package com.formula.one.domain;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CurrentTimestamp;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.tuple.GenerationTiming;
 import org.hibernate.validator.constraints.Range;
 
+import java.time.Instant;
 import java.util.UUID;
 
 @Entity
@@ -40,10 +43,10 @@ public class RaceRanking {
     @Column(name = "did_not_finished", nullable = false)
     private boolean didNotFinished;
 
-    @Column(name = "is_race_winner", nullable = false)
-    private boolean isRaceWinner;
+    @CurrentTimestamp(timing = GenerationTiming.INSERT)
+    public Instant createdAt;
 
-    public RaceRanking(UUID id, Race race, Driver driver, int position, int pointsCount, boolean hasFastestLap, boolean didNotFinished, boolean isRaceWinner) {
+    public RaceRanking(UUID id, Race race, Driver driver, int position, int pointsCount, boolean hasFastestLap, boolean didNotFinished, Instant createdAt) {
         this.id = id;
         this.race = race;
         this.driver = driver;
@@ -51,7 +54,7 @@ public class RaceRanking {
         this.pointsCount = pointsCount;
         this.hasFastestLap = hasFastestLap;
         this.didNotFinished = didNotFinished;
-        this.isRaceWinner = isRaceWinner;
+        this.createdAt = createdAt;
     }
 
     public RaceRanking() {
@@ -113,11 +116,11 @@ public class RaceRanking {
         this.didNotFinished = didNotFinished;
     }
 
-    public boolean isRaceWinner() {
-        return isRaceWinner;
+    public Instant getCreatedAt() {
+        return createdAt;
     }
 
-    public void setRaceWinner(boolean raceWinner) {
-        isRaceWinner = raceWinner;
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
     }
 }

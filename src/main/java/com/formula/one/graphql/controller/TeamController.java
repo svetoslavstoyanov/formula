@@ -49,6 +49,8 @@ public class TeamController {
 
         if (!Objects.isNull(sort)) {
             sort.forEach((s) -> localSort.add(new Sort.Order(s.getDirection(), s.getField())));
+        } else {
+            localSort.add(new Sort.Order(Sort.Direction.ASC, "id"));
         }
 
         PageRequest pageRequest = PageRequest.of(localPageIndex, localPageSize, Sort.by(localSort));

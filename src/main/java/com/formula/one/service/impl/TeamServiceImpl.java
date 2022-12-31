@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 //  TODO: ADD ERRORS
 @Service
@@ -42,6 +44,11 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public Team create(Team team) {
         return teamRepository.save(team);
+    }
+
+    @Override
+    public List<Team> _createMultiple(List<Team> teams) {
+        return StreamSupport.stream(teamRepository.saveAll(teams).spliterator(), false).collect(Collectors.toList());
     }
 
     @Override
