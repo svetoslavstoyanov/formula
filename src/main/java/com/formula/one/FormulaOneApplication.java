@@ -9,14 +9,16 @@ public class FormulaOneApplication {
     public static void main(String[] args) {
         SpringApplication.run(FormulaOneApplication.class, args);
     }
-//  TODO: mock generate races
-//  TODO: mock finish race
+//  TODO: fix didNotFinished - assign all drivers that left based on random int. Maybe rename that property to finished
+//  TODO: fix edits - omit sets if null values
 //  TODO: update teams winsCount, pointsCount on finished race
-//  TODO: query/mutations for generating data
+//  TODO: create annotation(maybe) in order to share pageable method functionallity in controller
+//  TODO: read https://graphql.org/learn/ in order to optimize schema. If possible separate it to smaller files
 
 //  TODO*: error handling
 //  TODO*: handle more precise business logic around validations
 //  TODO*: security
+//  TODO*: sockets
 
 //  TODO**: add status for race? READY, RUNNING, FINISHED
 //  TODO**: add years

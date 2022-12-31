@@ -1,6 +1,5 @@
 package com.formula.one.service.impl;
 
-import com.formula.one.domain.Driver;
 import com.formula.one.domain.Team;
 import com.formula.one.repository.DriverRepository;
 import com.formula.one.repository.TeamRepository;
@@ -8,7 +7,6 @@ import com.formula.one.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,10 +33,7 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public Team fetchById(UUID teamId) {
         Optional<Team> team = teamRepository.findById(teamId);
-        if (team.isEmpty()) {
-            return null;
-        }
-        return team.get();
+        return team.orElse(null);
     }
 
     @Override

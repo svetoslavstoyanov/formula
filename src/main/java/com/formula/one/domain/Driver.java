@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "drivers")
+@Table(name = "drivers", uniqueConstraints = {@UniqueConstraint(columnNames = {"first_name", "last_name"})})
 public class Driver {
 
     @Id

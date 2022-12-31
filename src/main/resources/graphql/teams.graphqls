@@ -6,12 +6,14 @@ type Query {
     fetchAllDrivers: [Driver]!
     fetchDriverById(id:ID): Driver
     #    RACES
-    fetchAllRaces: [Race]!
+    fetchAllRaces(pageIndex: Int, pageSize: Int, sort: [Sort]):Page
     fetchRaceById(id: ID): Race
     #    MOCK
     mockGenerateTeams:[Team]!
     mockGenerateDrivers:[Driver]!
     mockAssignDriverToTeams:[Driver]!
+    mockGenerateRaces:[Race]!
+    mockSimulateRace:Race
 }
 
 type Mutation{
@@ -49,9 +51,10 @@ input Sort{
     direction: DIRECTION
     field: String
 }
+union PageData =Team|Race
 
 type Page{
-    data: [Team]
+    data: [PageData]
     totalPages: Int
     totalElements: Int
     isFirst: Boolean
@@ -97,6 +100,7 @@ input CreateRace{
     circuitName: String!
     lapsCount:Int!
     averageLapTimeInSeconds: Int!
+    lapDistanceInMetres: Int!
     startDate: String!
 }
 
@@ -106,6 +110,7 @@ input EditRace{
     circuitName: String!
     lapsCount:Int!
     averageLapTimeInSeconds: Int!
+    lapDistanceInMetres: Int!
     startDate: String!
 }
 
@@ -127,6 +132,7 @@ type Race{
     endDate: String
     status: RACE_STATUS!
     raceRankings: [RaceRanking]
+    lapDistanceInMetres: Int!
 }
 
 

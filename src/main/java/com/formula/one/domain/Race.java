@@ -26,8 +26,8 @@ public class Race {
     private UUID id;
 
     @NotBlank
-    @Length(min = 3, max = 20)
-    @Column(name = "circuit_name", nullable = false)
+    @Length(min = 3, max = 100)
+    @Column(name = "circuit_name", nullable = false, unique = true)
     private String circuitName;
 
     @Range(min = 1)
@@ -37,6 +37,11 @@ public class Race {
     @Range(min = 1)
     @Column(name = "average_lap_time_in_seconds", nullable = false)
     private int averageLapTimeInSeconds;
+
+    @Range(min = 1)
+    @Column(name = "lap_distance_in_metres")
+    private int lapDistanceInMetres;
+
     @NotNull()
     @Column(name = "start_date", nullable = false)
     private LocalDateTime startDate;
@@ -54,11 +59,12 @@ public class Race {
     @CurrentTimestamp(timing = GenerationTiming.INSERT)
     public Instant createdAt;
 
-    public Race(UUID id, String circuitName, int lapsCount, int averageLapTimeInSeconds, LocalDateTime startDate, LocalDateTime endDate, List<RaceRanking> raceRankings, RaceStatus raceStatus, Instant createdAt) {
+    public Race(UUID id, String circuitName, int lapsCount, int averageLapTimeInSeconds, int lapDistanceInMetres, LocalDateTime startDate, LocalDateTime endDate, List<RaceRanking> raceRankings, RaceStatus raceStatus, Instant createdAt) {
         this.id = id;
         this.circuitName = circuitName;
         this.lapsCount = lapsCount;
         this.averageLapTimeInSeconds = averageLapTimeInSeconds;
+        this.lapDistanceInMetres = lapDistanceInMetres;
         this.startDate = startDate;
         this.endDate = endDate;
         this.raceRankings = raceRankings;
@@ -139,5 +145,13 @@ public class Race {
 
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public int getLapDistanceInMetres() {
+        return lapDistanceInMetres;
+    }
+
+    public void setLapDistanceInMetres(int lapDistanceInMetres) {
+        this.lapDistanceInMetres = lapDistanceInMetres;
     }
 }

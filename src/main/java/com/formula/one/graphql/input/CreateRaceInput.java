@@ -1,5 +1,6 @@
 package com.formula.one.graphql.input;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
@@ -21,11 +22,16 @@ public class CreateRaceInput {
     @NotBlank()
     private String startDate;
 
-    public CreateRaceInput(String circuitName, int lapsCount, int averageLapTimeInSeconds, String startDate) {
+    @Range(min = 1)
+    private int lapDistanceInMetres;
+
+
+    public CreateRaceInput(String circuitName, int lapsCount, int averageLapTimeInSeconds, String startDate,int lapDistanceInMetres) {
         this.circuitName = circuitName;
         this.lapsCount = lapsCount;
         this.averageLapTimeInSeconds = averageLapTimeInSeconds;
         this.startDate = startDate;
+        this.lapDistanceInMetres  = lapDistanceInMetres;
     }
 
     public CreateRaceInput() {
@@ -61,5 +67,13 @@ public class CreateRaceInput {
 
     public void setStartDate(String startDate) {
         this.startDate = startDate;
+    }
+
+    public int getLapDistanceInMetres() {
+        return lapDistanceInMetres;
+    }
+
+    public void setLapDistanceInMetres(int lapDistanceInMetres) {
+        this.lapDistanceInMetres = lapDistanceInMetres;
     }
 }

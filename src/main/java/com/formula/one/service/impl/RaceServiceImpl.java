@@ -10,6 +10,8 @@ import com.formula.one.service.DriverService;
 import com.formula.one.service.RaceRankingService;
 import com.formula.one.service.RaceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -18,6 +20,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class RaceServiceImpl implements RaceService {
@@ -32,8 +35,8 @@ public class RaceServiceImpl implements RaceService {
     private DriverService driverService;
 
     @Override
-    public List<Race> getAll() {
-        return raceRepository.findAll();
+    public Page<Race> getAll(PageRequest pageRequest) {
+        return raceRepository.findAll(pageRequest);
     }
 
     @Override
@@ -44,6 +47,11 @@ public class RaceServiceImpl implements RaceService {
     @Override
     public Race create(Race race) {
         return raceRepository.save(race);
+    }
+
+    @Override
+    public List<Race> _createMultiple(List<Race> races) {
+        return StreamSupport.stream(raceRepository.saveAll(races).spliterator(), false).collect(Collectors.toList());
     }
 
     @Override
